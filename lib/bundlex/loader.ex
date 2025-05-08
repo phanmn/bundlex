@@ -130,9 +130,8 @@ defmodule Bundlex.Loader do
   NIFs.
   """
   defmacro load_nif!(app \\ nil, nif_name) do
-    require Logger
-
     quote do
+      require Logger
       app = unquote(app || MixHelper.get_app!())
       nif_name = unquote(nif_name)
 
