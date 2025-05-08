@@ -130,11 +130,14 @@ defmodule Bundlex.Loader do
   NIFs.
   """
   defmacro load_nif!(app \\ nil, nif_name) do
+    require Logger
+
     quote do
       app = unquote(app || MixHelper.get_app!())
       nif_name = unquote(nif_name)
 
       path = Bundlex.build_path(app, nif_name, :nif)
+      path |> Logger.error()
 
       with :ok <- :erlang.load_nif(path |> PathHelper.fix_slashes() |> to_charlist(), 0) do
         :ok
